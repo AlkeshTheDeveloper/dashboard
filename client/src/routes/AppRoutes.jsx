@@ -1,10 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Login from "../pages/Login/Login";
 import Dashboard from "../pages/Dashboard/Dashboard";
-
-import ProtectedRoute from "../components/ProtectedRoute";
-import PublicRoute from "../components/PublicRoute";
+import AppLayout from "../components/layout/AppLayout";
+import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
+import Login from "./../pages/Login/Login";
+import "../index.css";
+import Expenses from "../pages/Expenses/Expenses";
+import Profile from "../pages/Profile/Profile";
+import Budget from "../pages/Budget/Budget";
 
 const AppRoutes = () => {
   return (
@@ -18,15 +22,20 @@ const AppRoutes = () => {
             </PublicRoute>
           }
         />
-
         <Route
-          path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <AppLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+
+          <Route path="/expenses" element={<Expenses />} />
+
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/budget" element={<Budget />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

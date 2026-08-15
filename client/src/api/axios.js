@@ -1,5 +1,4 @@
 import axios from "axios";
-import { store } from "../app/store";
 
 const api = axios.create({
   baseURL: "http://localhost:5000/api",
@@ -8,17 +7,23 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use(
-  (config) => {
-    const token = store.getState().auth.token;
+api.interceptors.request.use((config) => {
+ const persistedState = localStorage.getItem("persist:root");
+
+if (persistedState) {
+  const parsedState = JSON.parse(persistedState);
+
+  if (parsedState.auth) {
+    const auth = JSON.parse(parsedState.auth);
+    const token = auth.token;
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+  }
+}
 
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+  return config;
+});
 
 export default api;

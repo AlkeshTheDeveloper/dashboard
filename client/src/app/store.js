@@ -2,15 +2,21 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 
 import authReducer from "../features/auth/authSlice";
-
 import storageModule from "redux-persist/lib/storage";
+import dashboardReducer from "../features/dashboard/dashboardSlice";
+import expenseReducer from "../features/expense/expenseSlice";
+import budgetReducer from "../features/budget/budgetSlice";
+import uiReducer from "../features/ui/uiSlice";
+import profileReducer from "../features/profile/profileSlice";
 
 const storage = storageModule.default || storageModule;
-console.log("storage:", storage);
-console.log("getItem:", storage.getItem);
-
 const rootReducer = combineReducers({
   auth: authReducer,
+  dashboard: dashboardReducer,
+  budget: budgetReducer,
+  expense: expenseReducer,
+  ui: uiReducer,
+  profile: profileReducer,
 });
 
 const persistConfig = {
