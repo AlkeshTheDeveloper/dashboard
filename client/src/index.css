@@ -4,11 +4,16 @@ html,
 body,
 #root {
   margin: 0;
+  width: 100%;
   min-height: 100%;
 }
 
 body {
   font-family: Inter, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .login {
@@ -17,7 +22,7 @@ body {
   width: 250px;
   border-radius: 5px;
   display: flex;
-  justify-content: center; /* Centers horizontally */
+  justify-content: center;
   align-items: center;
   background-color: rgb(164, 158, 170);
   color: darkblue;
@@ -28,7 +33,7 @@ body {
 
   button {
     display: block;
-    margin: 5px auto; /* Centers horizontally */
+    margin: 5px auto;
     background-color: blanchedalmond;
     border-radius: 5px;
     padding: 2px 5px;
