@@ -1,50 +1,126 @@
 import {
   Drawer,
-  Toolbar,
   List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Box,
 } from "@mui/material";
 
-import { NavLink } from "react-router-dom";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SavingsIcon from "@mui/icons-material/Savings";
 
-import { navigationItems } from "../../constants/navigation";
+import { useNavigate } from "react-router-dom";
 
-const drawerWidth = 240;
+const SIDEBAR_WIDTH = 240;
 
-const Sidebar = () => {
-  return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
+const Sidebar = ({ mobileOpen, onClose }) => {
+  const navigate = useNavigate();
 
-        "& .MuiDrawer-paper": {
-          width: drawerWidth,
-          boxSizing: "border-box",
-        },
-      }}
-    >
-      <Toolbar />
+  const menuItems = [
+    {
+      label: "Dashboard",
+      path: "/dashboard",
+      icon: <DashboardIcon />,
+    },
+    {
+      label: "Expenses",
+      path: "/expenses",
+      icon: <ReceiptLongIcon />,
+    },
+    {
+      label: "Profile",
+      path: "/profile",
+      icon: <AccountCircleIcon />,
+    },
+    {
+      label: "Budget",
+      path: "/budget",
+      icon: <SavingsIcon />,
+    },
+  ];
 
-      <List>
-        {navigationItems.map((item) => {
-          const Icon = item.icon;
+  const handleNavigation = (path) => {
+    navigate(path);
+    onClose();
+  };
 
-          return (
-            <ListItemButton key={item.path} component={NavLink} to={item.path}>
-              <ListItemIcon>
-                <Icon />
+  const drawerContent = (
+    <Box sx={{ width: SIDEBAR_WIDTH }}>
+      <List sx={{ pt: 8 }}>
+        {menuItems.map((item) => (
+          <ListItem key={item.path} disablePadding>
+            <ListItemButton
+              onClick={() => handleNavigation(item.path)}
+              sx={{
+                minHeight: 56,
+                px: 2,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 40,
+                }}
+              >
+                {item.icon}
               </ListItemIcon>
 
               <ListItemText primary={item.label} />
             </ListItemButton>
-          );
-        })}
+          </ListItem>
+        ))}
       </List>
-    </Drawer>
+    </Box>
+  );
+
+  return (
+    <>
+      {/* Desktop */}
+      <Drawer
+        variant="permanent"
+        sx={{
+          display: {
+            xs: "none",
+            md: "block",
+          },
+
+          "& .MuiDrawer-paper": {
+            width: SIDEBAR_WIDTH,
+            boxSizing: "border-box",
+            top: 0,
+          },
+        }}
+        open
+      >
+        {drawerContent}
+      </Drawer>
+
+      {/* Mobile */}
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={onClose}
+        ModalProps={{
+          keepMounted: true,
+        }}
+        sx={{
+          display: {
+            xs: "block",
+            md: "none",
+          },
+
+          "& .MuiDrawer-paper": {
+            width: SIDEBAR_WIDTH,
+            boxSizing: "border-box",
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+    </>
   );
 };
 

@@ -11,19 +11,14 @@ api.interceptors.request.use((config) => {
   const persistedState = localStorage.getItem("persist:root");
 
   if (persistedState) {
-    try {
-      const parsedState = JSON.parse(persistedState);
+    const parsedState = JSON.parse(persistedState);
 
-      if (parsedState.auth) {
-        const auth = JSON.parse(parsedState.auth);
-        const token = auth.token;
+    if (parsedState.auth) {
+      const auth = JSON.parse(parsedState.auth);
 
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
+      if (auth.token) {
+        config.headers.Authorization = `Bearer ${auth.token}`;
       }
-    } catch (error) {
-      console.error("Failed to read persisted auth:", error);
     }
   }
 
